@@ -164,7 +164,7 @@
     // test if any major diagonals on this board contain conflicts
     hasAnyMajorDiagonalConflicts: function() {
       var board = this.rows();
-      var start = -board.length + 2;
+      var start = -board.length;
       for (var i = start; i < board.length - 1; i++) {
         if (this.hasMajorDiagonalConflictAt(i)) {
           return true;
@@ -201,7 +201,7 @@
     // test if any minor diagonals on this board contain conflicts
     hasAnyMinorDiagonalConflicts: function() {
       var board = this.rows();
-      var start = board.length + 2;
+      var start = board.length*2;
       for (var i = start; i > 0; i--) {
         if (this.hasMinorDiagonalConflictAt(i)) {
           return true;
