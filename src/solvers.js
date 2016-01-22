@@ -23,21 +23,16 @@ window.findNRooksSolution = function(n, returnAll) {
   var placeRook = function(rowIndex, board) {
     //base case
     if (rowIndex === n) {
-      if (!board.hasAnyRooksConflicts()) {
         var matrix = JSON.parse(JSON.stringify(board.rows()));
         solutions.push(matrix);
-        // rowIndex = 0;
-      }
     //other cases
     } else {
       for (var col = 0; col < n; col++) {
-        board.rows()[rowIndex][col] = 1;
-        if (board.hasAnyRooksConflicts()) {
-          board.rows()[rowIndex][col] = 0;
-        } else {
+        board.togglePiece(rowIndex, col);
+        if (!board.hasAnyRooksConflicts()) {
           placeRook(rowIndex + 1, board);
-          board.rows()[rowIndex][col] = 0;
         }
+        board.togglePiece(rowIndex, col);
       }
     }
   }
@@ -67,34 +62,29 @@ window.findNQueensSolution = function(n, returnAll) {
   // var boardArray = newBoard.rows();
   var solutions = [];
 
-  var placeRook = function(rowIndex, board) {
+  var placeQueen = function(rowIndex, board) {
     //base case
     if (rowIndex === n) {
-      if (!board.hasAnyRooksConflicts()) {
         var matrix = JSON.parse(JSON.stringify(board.rows()));
         solutions.push(matrix);
-        // rowIndex = 0;
-      }
     //other cases
     } else {
       for (var col = 0; col < n; col++) {
-        board.rows()[rowIndex][col] = 1;
-        if (board.hasAnyQueensConflicts()) {
-          board.rows()[rowIndex][col] = 0;
-        } else {
-          placeRook(rowIndex + 1, board);
-          board.rows()[rowIndex][col] = 0;
+        board.togglePiece(rowIndex, col);
+        if (!board.hasAnyQueensConflicts()) {
+          placeQueen(rowIndex + 1, board);
         }
+        board.togglePiece(rowIndex, col);
       }
     }
   }
 
-  placeRook(0, newBoard);
+  placeQueen(0, newBoard);
 
-  console.log('Single solution for ' + n + ' rooks:', JSON.stringify(solutions));
+  console.log('Single solution for ' + n + ' queens:', JSON.stringify(solutions));
 
   if (!returnAll) {
-    return solutions[0];
+    return solutions[0] || newBoard.rows();
   } else {
     return solutions;
   }
